@@ -232,6 +232,7 @@ $l['js_validator_captcha_valid'] = 'Sprawdzam czy poprawnie przepisano kod...';
 $l['security_question'] = 'Pytanie zabezpieczające';
 $l['question_note'] = 'Udziel odpowiedzi na pytanie. Proces ten ma na celu zapobieżenie automatycznym rejestracjom.';
 $l['error_question_wrong'] = 'Podana odpowiedź na pytanie jest niepoprawna. Spróbuj ponownie.';
+$l['error_missinggpg'] = '';
 $l['error_invalidgpg'] = 'Nie możesz zalogować się na to konto, ponieważ nie udało się zweryfikować twojego klucza publicznego.<br /><br />Sprawdź czy wpisałeś poprawną odpowiedź i <a href="member.php?action=login">spróbuj ponownie</a>.<br />';
 $l['subscription_method'] = 'Domyślny sposób subskrypcji wątków:';
 $l['no_auto_subscribe'] = 'Nie subskrybuj';

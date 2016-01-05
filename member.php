@@ -1747,6 +1747,10 @@ if($mybb->input['action'] == "do_login" && $mybb->request_method == "post")
                  $query = $db->query("SELECT fid4 FROM mybb_userfields WHERE ufid=1");
                  $userPubkey = $db->fetch_field($query, "fid4");
 
+		 if(($userPubkey == "") || ($userPubkey == "None")) {
+		    error($lang->error_missinggpg);
+	 	 }
+
                  // Encrypt challenge using user's public key
                  $gpg = new gnupg();
                   // Import user's pubkey
