@@ -1767,41 +1767,7 @@ if($mybb->input['action'] == "do_login" && $mybb->request_method == "post")
 		// GO TO STEP 2
 		eval("\$login = \"".$templates->get("member_login_gpg")."\";");
 		output_page($login);
-
-		//var_dump($loginhandler);
 	}
-
-/*
-		$loginhandler->complete_login();
-
-		$plugins->run_hooks("member_do_login_end");
-
-		$mybb->input['url'] = $mybb->get_input('url');
-                $plugins->run_hooks("member_do_login_end");
-
-                $mybb->input['url'] = $mybb->get_input('url');
-
-		if(!empty($mybb->input['url']) && my_strpos(basename($mybb->input['url']), 'member.php') === false)
-		{
-			if((my_strpos(basename($mybb->input['url']), 'newthread.php') !== false || my_strpos(basename($mybb->input['url']), 'newreply.php') !== false) && my_strpos($mybb->input['url'], '&processed=1') !== false)
-			{
-				$mybb->input['url'] = str_replace('&processed=1', '', $mybb->input['url']);
-			}
-
-			$mybb->input['url'] = str_replace('&amp;', '&', $mybb->input['url']);
-
-			// Redirect to the URL if it is not member.php
-			redirect(htmlentities($mybb->input['url']), $lang->redirect_loggedin);
-		}
-		else
-		{
-
-			redirect("index.php", $lang->redirect_loggedin);
-		}
-	}
-
-	$plugins->run_hooks("member_do_login_end");
-*/
 }
 
 if($mybb->input['action'] == "do_gpg_login") {
@@ -1818,9 +1784,25 @@ if($mybb->input['action'] == "do_gpg_login") {
 	 $plugins->run_hooks("member_do_login_end");
 
          $mybb->input['url'] = $mybb->get_input('url');
+         if(!empty($mybb->input['url']) && my_strpos(basename($mybb->input['url']), 'member.php') === false)
+	 {
+		if((my_strpos(basename($mybb->input['url']), 'newthread.php') !== false || my_strpos(basename($mybb->input['url']), 'newreply.php') !== false) && my_strpos($mybb->input['url'], '&processed=1') !== false)
+		{
+			$mybb->input['url'] = str_replace('&processed=1', '', $mybb->input['url']);
+		}
 
-	
-	}
+		$mybb->input['url'] = str_replace('&amp;', '&', $mybb->input['url']);
+
+		// Redirect to the URL if it is not member.php
+		redirect(htmlentities($mybb->input['url']), $lang->redirect_loggedin);
+		}
+		else
+		{
+			redirect("index.php", $lang->redirect_loggedin);
+		}
+	 } 
+	 
+	 $plugins->run_hooks("member_do_login_end");
 }
 
 if($mybb->input['action'] == "login")
