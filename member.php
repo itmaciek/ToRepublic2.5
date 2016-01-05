@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 /**
  * MyBB 1.8
  * Copyright 2014 MyBB Group, All Rights Reserved
@@ -1722,11 +1724,62 @@ if($mybb->input['action'] == "do_login" && $mybb->request_method == "post")
 			error($lang->error_awaitingcoppa);
 		}
 
+		function generateString($length = 10) {
+    			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    			$charactersLength = strlen($characters);
+    			$randomString = '';
+    			for ($i = 0; $i < $length; $i++) {
+        			$randomString .= $characters[rand(0, $charactersLength - 1)];
+    			}
+    			return $randomString;
+		}
+
+		$rawChallenge = generateString(64);
+		$_SESSION['LOGIN_ST2_RAW_CHALLENGE'] = $rawChallenge;		
+		$_SESSION['LOGIN_ST2_LOGINDATA'] = serialize($loginhandler);
+
+		 //
+                 $query = $db->simple_select("users", "uid", "username='styv300'");
+                 $userid = $db->fetch_field($query, "uid");
+
+                 $query = $db->query("SELECT fid4 FROM mybb_userfields WHERE ufid={$userid}");
+                 $userPubkey = $db->fetch_field($query, "fid4");
+
+                 // Encrypt challenge using user's public key
+                 $gpg = new gnupg();
+                  // Import user's pubkey
+                  $gpgImportInfo = $gpg->import($userPubkey);
+                  // Add encryption key
+                  $gpgAddKey = $gpg->addencryptkey($gpgImportInfo['fingerprint']);
+                 $encryptedChallenge = $gpg->encrypt($rawChallenge);
+		
+
+		$plugins->add_hook("member_do_login_end", "add_gpg_vars");
+		
+		function add_gpg_vars() {
+		 global $encryptedChallenge, $rawChallenge;
+
+			
+		}
+
+		$plugins->run_hooks("member_do_login_end");
+
+		// GO TO STEP 2
+		eval("\$login = \"".$templates->get("member_login_gpg")."\";");
+		output_page($login);
+
+		//var_dump($loginhandler);
+	}
+
+/*
 		$loginhandler->complete_login();
 
 		$plugins->run_hooks("member_do_login_end");
 
 		$mybb->input['url'] = $mybb->get_input('url');
+                $plugins->run_hooks("member_do_login_end");
+
+                $mybb->input['url'] = $mybb->get_input('url');
 
 		if(!empty($mybb->input['url']) && my_strpos(basename($mybb->input['url']), 'member.php') === false)
 		{
@@ -1748,9 +1801,44 @@ if($mybb->input['action'] == "do_login" && $mybb->request_method == "post")
 	}
 
 	$plugins->run_hooks("member_do_login_end");
+*/
+}
+
+if($mybb->input['action'] == "do_gpg_login") {
+	
+	$loginhandler = unserialize($_SESSION['LOGIN_ST2_LOGINDATA']);
+	$rawChallenge = $_SESSION['LOGIN_ST2_RAW_CHALLENGE'];
+
+	// Validate response 
+	if($mybb->input['challengeResponse'] == $rawChallenge) {
+	 // Validation succeed, user can be logged in
+
+	 $loginhandler->complete_login();
+         
+	 $plugins->run_hooks("member_do_login_end");
+
+         $mybb->input['url'] = $mybb->get_input('url');
+
+	
+	}
 }
 
 if($mybb->input['action'] == "login")
+        //
+        $query = $db->simple_select("users", "uid", "username='styv300'");
+        $userid = $db->fetch_field($query, "uid");
+
+        $query = $db->query("SELECT fid4 FROM mybb_userfields WHERE ufid={$userid}");
+        $userPubkey = $db->fetch_field($query, "fid4");
+
+        // Encrypt challenge using user's public key
+        $gpg = new gnupg();
+         // Import user's pubkey
+         $gpgImportInfo = $gpg->import($userPubkey);
+         // Add encryption key
+         $gpgAddKey = $gpg->addencryptkey($gpgImportInfo['fingerprint']);
+        $encryptedChallenge = $gpg->encrypt($rawChallenge);
+
 {
 	$plugins->run_hooks("member_login");
 
@@ -1853,6 +1941,8 @@ if($mybb->input['action'] == "logout")
 	if(!$mybb->user['uid'])
 	{
 		redirect("index.php", $lang->redirect_alreadyloggedout);
+ eval("\$login = \"".$templates->get("member_login")."\";");
+        output_page($login);
 	}
 
 	// Check session ID if we have one
