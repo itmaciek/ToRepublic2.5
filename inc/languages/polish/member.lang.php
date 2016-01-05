@@ -16,7 +16,7 @@
 // Language pack translators website : http://www.mybboard.pl/
 // Compatible version of MyBB : 1806
 // Last edited in MyBB Editor by : styv300
-// Last edited date : Tue, 05 Jan 2016 01:26:14 +0000
+// Last edited date : Tue, 05 Jan 2016 02:16:11 +0000
 // --------------------------------------------------------------------------------
 
 $l['nav_register'] = 'Rejestracja';
@@ -232,7 +232,7 @@ $l['js_validator_captcha_valid'] = 'Sprawdzam czy poprawnie przepisano kod...';
 $l['security_question'] = 'Pytanie zabezpieczające';
 $l['question_note'] = 'Udziel odpowiedzi na pytanie. Proces ten ma na celu zapobieżenie automatycznym rejestracjom.';
 $l['error_question_wrong'] = 'Podana odpowiedź na pytanie jest niepoprawna. Spróbuj ponownie.';
-$l['error_missinggpg'] = '';
+$l['error_missinggpg'] = 'Nie możesz zalogować się na to konto, ponieważ nie podałeś klucza publicznego.<br /><br /> Logowanie dla kont bez zapisanego klucza nie jest jeszcze dostępne.<br />';
 $l['error_invalidgpg'] = 'Nie możesz zalogować się na to konto, ponieważ nie udało się zweryfikować twojego klucza publicznego.<br /><br />Sprawdź czy wpisałeś poprawną odpowiedź i <a href="member.php?action=login">spróbuj ponownie</a>.<br />';
 $l['subscription_method'] = 'Domyślny sposób subskrypcji wątków:';
 $l['no_auto_subscribe'] = 'Nie subskrybuj';
