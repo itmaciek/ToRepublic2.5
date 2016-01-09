@@ -1729,6 +1729,9 @@ if($mybb->input['action'] == "do_login" && $mybb->request_method == "post")
 		  $gpg->seterrormode(gnupg::ERROR_WARNING);
 		  // Import user's pubkey
                   $gpgImportInfo = $gpg->import($userPubkey);        
+		  if(($gpgImportInfo == false) || ($gpgImportInfo['fingerprint'] == "")) {
+		    error($lang->error_invalidgpg);
+		  }
 		  // Add encryption key
                   $gpgAddKey = $gpg->addencryptkey($gpgImportInfo['fingerprint']);
                  $encryptedChallenge = $gpg->encrypt($rawChallenge);
