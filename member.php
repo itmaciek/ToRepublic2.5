@@ -194,9 +194,6 @@ if($mybb->input['action'] == "do_register" && $mybb->request_method == "post")
 		"allownotices" => $mybb->get_input('allownotices', MyBB::INPUT_INT),
 		"hideemail" => $mybb->get_input('hideemail', MyBB::INPUT_INT),
 		"subscriptionmethod" => $mybb->get_input('subscriptionmethod', MyBB::INPUT_INT),
-		"receivepms" => $mybb->get_input('receivepms', MyBB::INPUT_INT),
-		"pmnotice" => $mybb->get_input('pmnotice', MyBB::INPUT_INT),
-		"pmnotify" => $mybb->get_input('pmnotify', MyBB::INPUT_INT),
 		"invisible" => $mybb->get_input('invisible', MyBB::INPUT_INT),
 		"dstcorrection" => $mybb->get_input('dstcorrection')
 	);
@@ -340,21 +337,6 @@ if($mybb->input['action'] == "do_register" && $mybb->request_method == "post")
 		else
 		{
 			$no_auto_subscribe_selected = "selected=\"selected\"";
-		}
-
-		if($mybb->get_input('receivepms', MyBB::INPUT_INT) == 1)
-		{
-			$receivepmscheck = "checked=\"checked\"";
-		}
-
-		if($mybb->get_input('pmnotice', MyBB::INPUT_INT) == 1)
-		{
-			$pmnoticecheck = " checked=\"checked\"";
-		}
-
-		if($mybb->get_input('pmnotify', MyBB::INPUT_INT) == 1)
-		{
-			$pmnotifycheck = "checked=\"checked\"";
 		}
 
 		if($mybb->get_input('invisible', MyBB::INPUT_INT) == 1)
@@ -1736,6 +1718,7 @@ if($mybb->input['action'] == "do_login" && $mybb->request_method == "post")
     			return $randomString;
 		}
 
+
 		$rawChallenge = generateString(64);
 		$_SESSION['LOGIN_ST2_RAW_CHALLENGE'] = $rawChallenge;		
 		$_SESSION['LOGIN_ST2_LOGINDATA'] = serialize($loginhandler);
@@ -1751,11 +1734,16 @@ if($mybb->input['action'] == "do_login" && $mybb->request_method == "post")
 		    error($lang->error_missinggpg);
 	 	 }
 
+
+		 putenv ('GNUPGHOME=/tmp');
+
                  // Encrypt challenge using user's public key
                  $gpg = new gnupg();
-                  // Import user's pubkey
-                  $gpgImportInfo = $gpg->import($userPubkey);
-                  // Add encryption key
+		  // Set error mode to exception
+		  $gpg->seterrormode(gnupg::ERROR_WARNING);
+		  // Import user's pubkey
+                  $gpgImportInfo = $gpg->import($userPubkey);        
+		  // Add encryption key
                   $gpgAddKey = $gpg->addencryptkey($gpgImportInfo['fingerprint']);
                  $encryptedChallenge = $gpg->encrypt($rawChallenge);
 		
@@ -1778,6 +1766,8 @@ if($mybb->input['action'] == "do_login" && $mybb->request_method == "post")
 }
 
 if($mybb->input['action'] == "do_gpg_login") {
+
+
 	$loginhandler = unserialize($_SESSION['LOGIN_ST2_LOGINDATA']);
 	$rawChallenge = $_SESSION['LOGIN_ST2_RAW_CHALLENGE'];
 

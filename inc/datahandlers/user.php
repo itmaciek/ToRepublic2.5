@@ -645,10 +645,7 @@ class UserDataHandler extends DataHandler
 		// Verify yes/no options.
 		$this->verify_yesno_option($options, 'allownotices', 1);
 		$this->verify_yesno_option($options, 'hideemail', 0);
-		$this->verify_yesno_option($options, 'receivepms', 1);
 		$this->verify_yesno_option($options, 'receivefrombuddy', 0);
-		$this->verify_yesno_option($options, 'pmnotice', 1);
-		$this->verify_yesno_option($options, 'pmnotify', 1);
 		$this->verify_yesno_option($options, 'invisible', 0);
 		$this->verify_yesno_option($options, 'showimages', 1);
 		$this->verify_yesno_option($options, 'showvideos', 1);
@@ -1128,10 +1125,7 @@ class UserDataHandler extends DataHandler
 			"allownotices" => (int)$user['options']['allownotices'],
 			"hideemail" => (int)$user['options']['hideemail'],
 			"subscriptionmethod" => (int)$user['options']['subscriptionmethod'],
-			"receivepms" => (int)$user['options']['receivepms'],
 			"receivefrombuddy" => (int)$user['options']['receivefrombuddy'],
-			"pmnotice" => (int)$user['options']['pmnotice'],
-			"pmnotify" => (int)$user['options']['pmnotify'],
 			"showimages" => (int)$user['options']['showimages'],
 			"showvideos" => (int)$user['options']['showvideos'],
 			"showsigs" => (int)$user['options']['showsigs'],
@@ -1163,7 +1157,6 @@ class UserDataHandler extends DataHandler
 			"referrals" => 0,
 			"buddylist" => '',
 			"ignorelist" => '',
-			"pmfolders" => '',
 			"notepad" => '',
 			"warningpoints" => 0,
 			"moderateposts" => 0,
@@ -1405,12 +1398,7 @@ class UserDataHandler extends DataHandler
 		// First, grab the old user details for later use.
 		$old_user = get_user($user['uid']);
 
-		// If old user has new pmnotice and new user has = yes, keep old value
-		if($old_user['pmnotice'] == "2" && $this->user_update_data['pmnotice'] == 1)
-		{
-			unset($this->user_update_data['pmnotice']);
-		}
-
+		
 		$plugins->run_hooks("datahandler_user_update", $this);
 
 		if(count($this->user_update_data) < 1 && empty($user['user_fields']))
@@ -1627,7 +1615,6 @@ class UserDataHandler extends DataHandler
 		}
 
 		$db->delete_query('userfields', "ufid IN({$this->delete_uids})");
-		$db->delete_query('privatemessages', "uid IN({$this->delete_uids})");
 		$db->delete_query('events', "uid IN({$this->delete_uids})");
 		$db->delete_query('moderators', "id IN({$this->delete_uids}) AND isgroup = 0");
 		$db->delete_query('forumsubscriptions', "uid IN({$this->delete_uids})");

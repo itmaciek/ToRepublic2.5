@@ -3874,53 +3874,15 @@ function get_colored_warning_level($level)
  */
 function get_ip()
 {
-	global $mybb, $plugins;
-
-	$ip = strtolower($_SERVER['REMOTE_ADDR']);
-
-	if($mybb->settings['ip_forwarded_check'])
-	{
-		$addresses = array();
-
-		if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-		{
-			$addresses = explode(',', strtolower($_SERVER['HTTP_X_FORWARDED_FOR']));
-		}
-		elseif(isset($_SERVER['HTTP_X_REAL_IP']))
-		{
-			$addresses = explode(',', strtolower($_SERVER['HTTP_X_REAL_IP']));
-		}
-
-		if(is_array($addresses))
-		{
-			foreach($addresses as $val)
-			{
-				$val = trim($val);
-				// Validate IP address and exclude private addresses
-				if(my_inet_ntop(my_inet_pton($val)) == $val && !preg_match("#^(10\.|172\.(1[6-9]|2[0-9]|3[0-1])\.|192\.168\.|fe80:|fe[c-f][0-f]:|f[c-d][0-f]{2}:)#", $val))
-				{
-					$ip = $val;
-					break;
-				}
-			}
-		}
-	}
-
-	if(!$ip)
-	{
-		if(isset($_SERVER['HTTP_CLIENT_IP']))
-		{
-			$ip = strtolower($_SERVER['HTTP_CLIENT_IP']);
-		}
-	}
+	global $plugins;
 
 	if($plugins)
 	{
-		$ip_array = array("ip" => &$ip); // Used for backwards compatibility on this hook with the updated run_hooks() function.
+		$ip_array = array("ip" => "127.0.0.1"); // Used for backwards compatibility on this hook with the updated run_hooks() function.
 		$plugins->run_hooks("get_ip", $ip_array);
 	}
 
-	return $ip;
+	return "127.0.0.1";
 }
 
 /**
