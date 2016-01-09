@@ -149,7 +149,7 @@ elseif($mybb->get_input('action') == "addsubscription")
 		$thread['subject'] = htmlspecialchars_uni($thread['subject']);
 		$lang->subscribe_to_thread = $lang->sprintf($lang->subscribe_to_thread, $thread['subject']);
 
-		$notification_none_checked = $notification_email_checked = $notification_pm_checked = '';
+		$notification_none_checked = $notification_email_checked = '';
 		if($mybb->user['subscriptionmethod'] == 1 || $mybb->user['subscriptionmethod'] == 0)
 		{
 			$notification_none_checked = "checked=\"checked\"";
