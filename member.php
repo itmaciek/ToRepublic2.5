@@ -21,7 +21,7 @@ $templatelist .= ",member_profile_signature,member_profile_avatar,member_profile
 $templatelist .= ",member_profile_modoptions_manageuser,member_profile_modoptions_editprofile,member_profile_modoptions_banuser,member_profile_modoptions_viewnotes,member_profile_modoptions,member_profile_modoptions_editnotes,member_profile_modoptions_purgespammer,postbit_reputation_formatted,postbit_warninglevel_formatted";
 $templatelist .= ",usercp_profile_profilefields_select_option,usercp_profile_profilefields_multiselect,usercp_profile_profilefields_select,usercp_profile_profilefields_textarea,usercp_profile_profilefields_radio,usercp_profile_profilefields_checkbox,usercp_profile_profilefields_text,usercp_options_tppselect_option";
 $templatelist .= ",member_register_question,member_register_question_refresh,usercp_options_timezone,usercp_options_timezone_option,usercp_options_language_option,member_register_language,member_profile_userstar,member_profile_customfields_field_multi_item,member_profile_customfields_field_multi,member_register_day";
-$templatelist .= ",member_profile_contact_fields_aim,member_profile_contact_fields_google,member_profile_contact_fields_icq,member_profile_contact_fields_skype,member_profile_contact_fields_yahoo,member_profile_pm,member_profile_contact_details,member_profile_banned,member_profile_findposts,member_profile_findthreads";
+$templatelist .= ",member_profile_contact_fields_aim,member_profile_contact_fields_google,member_profile_contact_fields_icq,member_profile_contact_fields_skype,member_profile_contact_fields_yahoo,member_profile_contact_details,member_profile_banned,member_profile_findposts,member_profile_findthreads";
 
 require_once "./global.php";
 require_once MYBB_ROOT."inc/functions_post.php";
@@ -309,8 +309,7 @@ if($mybb->input['action'] == "do_register" && $mybb->request_method == "post")
 		$email2 = htmlspecialchars_uni($mybb->get_input('email2'));
 		$referrername = htmlspecialchars_uni($mybb->get_input('referrername'));
 
-		$allownoticescheck = $hideemailcheck = $no_auto_subscribe_selected = $instant_email_subscribe_selected = $instant_pm_subscribe_selected = $no_subscribe_selected = '';
-		$receivepmscheck = $pmnoticecheck = $pmnotifycheck = $invisiblecheck = $dst_auto_selected = $dst_enabled_selected = $dst_disabled_selected = '';
+		$allownoticescheck = $hideemailcheck = $no_auto_subscribe_selected = $instant_email_subscribe_selected = $no_subscribe_selected = '';
 
 		if($mybb->get_input('allownotices', MyBB::INPUT_INT) == 1)
 		{
@@ -329,10 +328,6 @@ if($mybb->input['action'] == "do_register" && $mybb->request_method == "post")
 		else if($mybb->get_input('subscriptionmethod', MyBB::INPUT_INT) == 2)
 		{
 			$instant_email_subscribe_selected = "selected=\"selected\"";
-		}
-		else if($mybb->get_input('subscriptionmethod', MyBB::INPUT_INT) == 3)
-		{
-			$instant_pm_subscribe_selected = "selected=\"selected\"";
 		}
 		else
 		{
@@ -1079,15 +1074,12 @@ if($mybb->input['action'] == "register")
 			$allownoticescheck = "checked=\"checked\"";
 			$hideemailcheck = '';
 			$emailnotifycheck = '';
-			$receivepmscheck = "checked=\"checked\"";
-			$pmnoticecheck = " checked=\"checked\"";
-			$pmnotifycheck = '';
 			$invisiblecheck = '';
 			if($mybb->settings['dstcorrection'] == 1)
 			{
 				$enabledstcheck = "checked=\"checked\"";
 			}
-			$no_auto_subscribe_selected = $instant_email_subscribe_selected = $instant_pm_subscribe_selected = $no_subscribe_selected = '';
+			$no_auto_subscribe_selected = $instant_email_subscribe_selected = $no_subscribe_selected = '';
 			$dst_auto_selected = $dst_enabled_selected = $dst_disabled_selected = '';
 			$username = $email = $email2 = '';
 			$regerrors = '';
@@ -2008,14 +2000,6 @@ if($mybb->input['action'] == "profile")
 	$lang->users_forum_info = $lang->sprintf($lang->users_forum_info, $memprofile['username']);
 	$lang->users_contact_details = $lang->sprintf($lang->users_contact_details, $memprofile['username']);
 
-	if($mybb->settings['enablepms'] != 0 && (($memprofile['receivepms'] != 0 && $memperms['canusepms'] != 0 && my_strpos(",".$memprofile['ignorelist'].",", ",".$mybb->user['uid'].",") === false) || $mybb->usergroup['canoverridepm'] == 1))
-	{
-		$lang->send_pm = $lang->sprintf($lang->send_pm, $memprofile['username']);
-	}
-	else
-	{
-		$lang->send_pm = '';
-	}
 	$lang->away_note = $lang->sprintf($lang->away_note, $memprofile['username']);
 	$lang->users_additional_info = $lang->sprintf($lang->users_additional_info, $memprofile['username']);
 	$lang->users_signature = $lang->sprintf($lang->users_signature, $memprofile['username']);
@@ -2024,7 +2008,7 @@ if($mybb->input['action'] == "profile")
 	$useravatar = format_avatar($memprofile['avatar'], $memprofile['avatardimensions']);
 	eval("\$avatar = \"".$templates->get("member_profile_avatar")."\";");
 
-	$website = $sendemail = $sendpm = $contact_details = '';
+	$website = $sendemail = $contact_details = '';
 	
 	if($memprofile['website'] && !is_member($mybb->settings['hidewebsite']) && $memperms['canchangewebsite'] == 1)
 	{
@@ -2037,12 +2021,6 @@ if($mybb->input['action'] == "profile")
 	{
 		$bgcolor = alt_trow();	
 		eval("\$sendemail = \"".$templates->get("member_profile_email")."\";");
-	}
-	
-	if($mybb->settings['enablepms'] == 1 && $memprofile['receivepms'] != 0 && $mybb->usergroup['cansendpms'] == 1 && my_strpos(",".$memprofile['ignorelist'].",", ",".$mybb->user['uid'].",") === false)
-	{
-		$bgcolor = alt_trow();	
-		eval('$sendpm = "'.$templates->get("member_profile_pm").'";');
 	}
 	
 	$contact_fields = array();
@@ -2071,7 +2049,7 @@ if($mybb->input['action'] == "profile")
 		}
 	}
 	
-	if($any_contact_field || $sendemail || $sendpm || $website)
+	if($any_contact_field || $sendemail || $website)
 	{
 		eval('$contact_details = "'.$templates->get("member_profile_contact_details").'";');
 	}
