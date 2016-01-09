@@ -158,10 +158,6 @@ elseif($mybb->get_input('action') == "addsubscription")
 		{
 			$notification_email_checked = "checked=\"checked\"";
 		}
-		else if($mybb->user['subscriptionmethod'] == 3)
-		{
-			$notification_pm_checked = "checked=\"checked\"";
-		}
 
 		$plugins->run_hooks("usercp2_addsubscription_thread");
 
