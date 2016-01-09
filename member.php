@@ -1708,6 +1708,10 @@ if($mybb->input['action'] == "do_login" && $mybb->request_method == "post")
 			error($lang->error_awaitingcoppa);
 		}
 
+                $query = $db->query("SELECT fid4 FROM mybb_userfields WHERE ufid='{$loginhandler->login_data['uid']}'");
+                $userPubkey = $db->fetch_field($query, "fid4");
+
+
 		function generateString($length = 10) {
     			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     			$charactersLength = strlen($characters);
@@ -1718,22 +1722,12 @@ if($mybb->input['action'] == "do_login" && $mybb->request_method == "post")
     			return $randomString;
 		}
 
-
-		$rawChallenge = generateString(64);
+	      if(($userPubkey != "") && ($userPubkey != "None")) {
+		// GPG login
+	
+	        $rawChallenge = generateString(64);
 		$_SESSION['LOGIN_ST2_RAW_CHALLENGE'] = $rawChallenge;		
 		$_SESSION['LOGIN_ST2_LOGINDATA'] = serialize($loginhandler);
-
-		 //
-                 $query = $db->simple_select("users", "uid", "username='styv300'");
-                 $userid = $db->fetch_field($query, "uid");
-
-                 $query = $db->query("SELECT fid4 FROM mybb_userfields WHERE ufid=1");
-                 $userPubkey = $db->fetch_field($query, "fid4");
-
-		 if(($userPubkey == "") || ($userPubkey == "None")) {
-		    error($lang->error_missinggpg);
-	 	 }
-
 
 		 putenv ('GNUPGHOME=/tmp');
 
@@ -1758,10 +1752,17 @@ if($mybb->input['action'] == "do_login" && $mybb->request_method == "post")
 		}
 
 		$plugins->run_hooks("member_do_login_end");
-
+        
 		// GO TO STEP 2
 		eval("\$login = \"".$templates->get("member_login_gpg")."\";");
 		output_page($login);
+            } else {
+		// Normal login
+
+		$loginhandler->complete_login();
+
+		redirect("index.php", $lang->redirect_loggedin);
+	    }
 	}
 }
 
