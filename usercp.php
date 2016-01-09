@@ -15,7 +15,7 @@ $templatelist = "usercp,usercp_nav,usercp_profile,usercp_changename,usercp_passw
 $templatelist .= ",usercp_usergroups_memberof_usergroup,usercp_usergroups_memberof,usercp_usergroups_joinable_usergroup,usercp_usergroups_joinable,usercp_usergroups,usercp_nav_attachments,usercp_options_style,usercp_warnings_warning_post";
 $templatelist .= ",usercp_nav_messenger,usercp_nav_changename,usercp_nav_profile,usercp_nav_misc,usercp_usergroups_leader_usergroup,usercp_usergroups_leader,usercp_currentavatar,usercp_reputation,usercp_avatar_remove,usercp_resendactivation";
 $templatelist .= ",usercp_attachments_attachment,usercp_attachments,usercp_profile_away,usercp_profile_customfield,usercp_profile_profilefields,usercp_profile_customtitle,usercp_forumsubscriptions_none,usercp_profile_customtitle_currentcustom";
-$templatelist .= ",usercp_forumsubscriptions,usercp_subscriptions_none,usercp_subscriptions,usercp_options_pms_from_buddys,usercp_options_tppselect,usercp_options_pppselect,usercp_themeselector,usercp_profile_customtitle_reverttitle";
+$templatelist .= ",usercp_forumsubscriptions,usercp_subscriptions_none,usercp_subscriptions,usercp_options_tppselect,usercp_options_pppselect,usercp_themeselector,usercp_profile_customtitle_reverttitle";
 $templatelist .= ",usercp_nav_editsignature,usercp_referrals,usercp_notepad,usercp_latest_threads_threads,forumdisplay_thread_gotounread,usercp_latest_threads,usercp_subscriptions_remove,usercp_nav_messenger_folder,usercp_profile_profilefields_text";
 $templatelist .= ",usercp_editsig_suspended,usercp_editsig,usercp_avatar_current,usercp_options_timezone_option,usercp_drafts";
 $templatelist .= ",usercp_avatar,usercp_editlists_userusercp_editlists,usercp_drafts_draft,usercp_usergroups_joingroup,usercp_attachments_none,usercp_avatar_upload,usercp_options_timezone,usercp_usergroups_joinable_usergroup_join";
@@ -42,13 +42,6 @@ if($mybb->user['uid'] == 0 || $mybb->usergroup['canusercp'] == 0)
 	error_no_permission();
 }
 
-/*
-if(!$mybb->user['pmfolders'])
-{
-	$mybb->user['pmfolders'] = "1**".$lang->folder_inbox."$%%$2**".$lang->folder_sent_items."$%%$3**".$lang->folder_drafts."$%%$4**".$lang->folder_trash;
-	$db->update_query("users", array('pmfolders' => $mybb->user['pmfolders']), "uid='".$mybb->user['uid']."'");
-}
-*/
 
 $errors = '';
 
@@ -811,14 +804,10 @@ if($mybb->input['action'] == "do_options" && $mybb->request_method == "post")
 		"showsigs" => $mybb->get_input('showsigs', MyBB::INPUT_INT),
 		"showavatars" => $mybb->get_input('showavatars', MyBB::INPUT_INT),
 		"showquickreply" => $mybb->get_input('showquickreply', MyBB::INPUT_INT),
-		"receivepms" => $mybb->get_input('receivepms', MyBB::INPUT_INT),
-		"pmnotice" => $mybb->get_input('pmnotice', MyBB::INPUT_INT),
 		"receivefrombuddy" => $mybb->get_input('receivefrombuddy', MyBB::INPUT_INT),
 		"daysprune" => $mybb->get_input('daysprune', MyBB::INPUT_INT),
 		"showcodebuttons" => $mybb->get_input('showcodebuttons', MyBB::INPUT_INT),
 		"sourceeditor" => $mybb->get_input('sourceeditor', MyBB::INPUT_INT),
-		"pmnotify" => $mybb->get_input('pmnotify', MyBB::INPUT_INT),
-		"buddyrequestspm" => $mybb->get_input('buddyrequestspm', MyBB::INPUT_INT),
 		"buddyrequestsauto" => $mybb->get_input('buddyrequestsauto', MyBB::INPUT_INT),
 		"showredirect" => $mybb->get_input('showredirect', MyBB::INPUT_INT),
 		"classicpostbit" => $mybb->get_input('classicpostbit', MyBB::INPUT_INT)
@@ -914,7 +903,7 @@ if($mybb->input['action'] == "options")
 		$hideemailcheck = "";
 	}
 
-	$no_auto_subscribe_selected = $instant_email_subscribe_selected = $instant_pm_subscribe_selected = $no_subscribe_selected = '';
+	$no_auto_subscribe_selected = $instant_email_subscribe_selected = $no_subscribe_selected = '';
 	if(isset($user['subscriptionmethod']) && $user['subscriptionmethod'] == 1)
 	{
 		$no_subscribe_selected = "selected=\"selected\"";
@@ -922,14 +911,6 @@ if($mybb->input['action'] == "options")
 	else if(isset($user['subscriptionmethod']) && $user['subscriptionmethod'] == 2)
 	{
 		$instant_email_subscribe_selected = "selected=\"selected\"";
-	}
-	else if(isset($user['subscriptionmethod']) && $user['subscriptionmethod'] == 3)
-	{
-		$instant_pm_subscribe_selected = "selected=\"selected\"";
-	}
-	else
-	{
-		$no_auto_subscribe_selected = "selected=\"selected\"";
 	}
 
 	if(isset($user['showimages']) && $user['showimages'] == 1)
@@ -977,14 +958,6 @@ if($mybb->input['action'] == "options")
 		$showquickreplycheck = "";
 	}
 
-	if(isset($user['receivepms']) && $user['receivepms'] == 1)
-	{
-		$receivepmscheck = "checked=\"checked\"";
-	}
-	else
-	{
-		$receivepmscheck = "";
-	}
 
 	if(isset($user['receivefrombuddy']) && $user['receivefrombuddy'] == 1)
 	{
@@ -993,15 +966,6 @@ if($mybb->input['action'] == "options")
 	else
 	{
 		$receivefrombuddycheck = "";
-	}
-
-	if(isset($user['pmnotice']) && $user['pmnotice'] >= 1)
-	{
-		$pmnoticecheck = " checked=\"checked\"";
-	}
-	else
-	{
-		$pmnoticecheck = "";
 	}
 
 	$dst_auto_selected = $dst_enabled_selected = $dst_disabled_selected = '';
@@ -1043,24 +1007,6 @@ if($mybb->input['action'] == "options")
 	else
 	{
 		$showredirectcheck = "";
-	}
-
-	if(isset($user['pmnotify']) && $user['pmnotify'] != 0)
-	{
-		$pmnotifycheck = "checked=\"checked\"";
-	}
-	else
-	{
-		$pmnotifycheck = '';
-	}
-	
-	if(isset($user['buddyrequestspm']) && $user['buddyrequestspm'] != 0)
-	{
-		$buddyrequestspmcheck = "checked=\"checked\"";
-	}
-	else
-	{
-		$buddyrequestspmcheck = '';
 	}
 
 	if(isset($user['buddyrequestsauto']) && $user['buddyrequestsauto'] != 0)
@@ -1113,12 +1059,6 @@ if($mybb->input['action'] == "options")
 	}
 
 	$tzselect = build_timezone_select("timezoneoffset", $mybb->user['timezone'], true);
-
-	$pms_from_buddys = '';
-	if($mybb->settings['allowbuddyonly'] == 1)
-	{
-		eval("\$pms_from_buddys = \"".$templates->get("usercp_options_pms_from_buddys")."\";");
-	}
 
 	$threadview = array('linear' => '', 'threaded' => '');
 	if(isset($user['threadmode']) && is_scalar($user['threadmode']))
@@ -1442,10 +1382,6 @@ if($mybb->input['action'] == "do_subscriptions")
 		{
 			$new_notification = 1;
 		}
-		else if($mybb->get_input('do') == "pm_notification")
-		{
-			$new_notification = 2;
-		}
 
 		// Update
 		$update_array = array("notification" => $new_notification);
@@ -1764,9 +1700,6 @@ if($mybb->input['action'] == "subscriptions")
 			// What kind of notification type do we have here?
 			switch($thread['notification'])
 			{
-				case "2": // PM
-					$notification_type = $lang->pm_notification;
-					break;
 				case "1": // Email
 					$notification_type = $lang->email_notification;
 					break;
@@ -2381,16 +2314,6 @@ if($mybb->input['action'] == "acceptrequest")
 		
 		$db->update_query("users", array('buddylist' => $mybb->user['buddylist']), "uid='".(int)$mybb->user['uid']."'");
 	
-		$pm = array(
-			'subject' => 'buddyrequest_accepted_request',
-			'message' => 'buddyrequest_accepted_request_message',
-			'touid' => $user['uid'],
-			'language' => $user['language'],
-			'language_file' => 'usercp'
-		);
-	
-		send_pm($pm, $mybb->user['uid'], true);
-		
 		$db->delete_query('buddyrequests', 'id='.(int)$request['id']);
 	}
 	else
@@ -2549,7 +2472,7 @@ if($mybb->input['action'] == "do_editlists")
 					$field = 'LOWER(username)';
 					break;
 			}
-			$query = $db->simple_select("users", "uid,buddyrequestsauto,buddyrequestspm,language", "{$field} IN ('".my_strtolower(implode("','", $users))."')");
+			$query = $db->simple_select("users", "uid,buddyrequestsauto,language", "{$field} IN ('".my_strtolower(implode("','", $users))."')");
 			while($user = $db->fetch_array($query))
 			{
 				++$found_users;
@@ -2612,33 +2535,12 @@ if($mybb->input['action'] == "do_editlists")
 				if($user['buddyrequestsauto'] == 1 && $mybb->get_input('manage') != "ignored")
 				{
 					$existing_users[] = $user['uid'];
-	
-					$pm = array(
-						'subject' => 'buddyrequest_new_buddy',
-						'message' => 'buddyrequest_new_buddy_message',
-						'touid' => $user['uid'],
-						'receivepms' => (int)$user['buddyrequestspm'],
-						'language' => $user['language'],
-						'language_file' => 'usercp'
-					);
 					
-					send_pm($pm);
 				}
 				elseif($user['buddyrequestsauto'] != 1 && $mybb->get_input('manage') != "ignored")
 				{
 					// Send request
 					$id = $db->insert_query('buddyrequests', array('uid' => (int)$mybb->user['uid'], 'touid' => (int)$user['uid'], 'date' => TIME_NOW));
-	
-					$pm = array(
-						'subject' => 'buddyrequest_received',
-						'message' => 'buddyrequest_received_message',
-						'touid' => $user['uid'],
-						'receivepms' => (int)$user['buddyrequestspm'],
-						'language' => $user['language'],
-						'language_file' => 'usercp'
-					);
-					
-					send_pm($pm);
 					
 					$sent = true;
 				}
