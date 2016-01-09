@@ -143,13 +143,14 @@ function fetch_forum_announcements($pid=0, $depth=1)
  */
 function send_report($report, $report_type='post')
 {
+	
 	global $db, $lang, $forum, $mybb, $post, $thread, $reputation, $user;
 
 	$nummods = false;
 	if(!empty($forum['parentlist']))
 	{
 		$query = $db->query("
-			SELECT DISTINCT u.username, u.email, u.receivepms, u.uid
+			SELECT DISTINCT u.username, u.email, u.uid
 			FROM ".TABLE_PREFIX."moderators m
 			LEFT JOIN ".TABLE_PREFIX."users u ON (u.uid=m.id)
 			WHERE m.fid IN (".$forum['parentlist'].") AND m.isgroup = '0'
@@ -166,7 +167,7 @@ function send_report($report, $report_type='post')
 			case "pgsql":
 			case "sqlite":
 				$query = $db->query("
-					SELECT u.username, u.email, u.receivepms, u.uid
+					SELECT u.username, u.email, u.uid
 					FROM ".TABLE_PREFIX."users u
 					LEFT JOIN ".TABLE_PREFIX."usergroups g ON (((','|| u.additionalgroups|| ',' LIKE '%,'|| g.gid|| ',%') OR u.usergroup = g.gid))
 					WHERE (g.cancp=1 OR g.issupermod=1)
@@ -174,7 +175,7 @@ function send_report($report, $report_type='post')
 				break;
 			default:
 				$query = $db->query("
-					SELECT u.username, u.email, u.receivepms, u.uid
+					SELECT u.username, u.email, u.uid
 					FROM ".TABLE_PREFIX."users u
 					LEFT JOIN ".TABLE_PREFIX."usergroups g ON (((CONCAT(',', u.additionalgroups, ',') LIKE CONCAT('%,', g.gid, ',%')) OR u.usergroup = g.gid))
 					WHERE (g.cancp=1 OR g.issupermod=1)
@@ -214,44 +215,9 @@ function send_report($report, $report_type='post')
 
 	while($mod = $db->fetch_array($query))
 	{
-		if($mybb->settings['reportmethod'] == "pms" && $mod['receivepms'] != 0 && $mybb->settings['enablepms'] != 0)
-		{
-			$pm_recipients[] = $mod['uid'];
-		}
-		else
-		{
-			my_mail($mod['email'], $emailsubject, $emailmessage);
-		}
+		my_mail($mod['email'], $emailsubject, $emailmessage);
 	}
 
-	if(count($pm_recipients) > 0)
-	{
-		require_once MYBB_ROOT."inc/datahandlers/pm.php";
-		$pmhandler = new PMDataHandler();
-
-		$pm = array(
-			"subject" => $emailsubject,
-			"message" => $emailmessage,
-			"icon" => 0,
-			"fromid" => $mybb->user['uid'],
-			"toid" => $pm_recipients,
-			"ipaddress" => $mybb->session->packedip
-		);
-
-		$pmhandler->admin_override = true;
-		$pmhandler->set_data($pm);
-
-		// Now let the pm handler do all the hard work.
-		if(!$pmhandler->validate_pm())
-		{
-			// Force it to valid to just get it out of here
-			$pmhandler->is_validated = true;
-			$pmhandler->errors = array();
-		}
-
-		$pminfo = $pmhandler->insert_pm();
-		return $pminfo;
-	}
 
 	return false;
 }
@@ -281,7 +247,7 @@ function add_report($report, $type = 'post')
 		'reporters' => $db->escape_string(my_serialize(array($report['uid'])))
 	);
 
-	if($mybb->settings['reportmethod'] == "email" || $mybb->settings['reportmethod'] == "pms")
+	if($mybb->settings['reportmethod'] == "email")
 	{
 		return send_report($report, $type);
 	}
