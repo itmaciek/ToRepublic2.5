@@ -898,9 +898,6 @@ if($mybb->input['action'] == "change")
 				'question_id',
 				'allownotices',
 				'hideemail',
-				'receivepms',
-				'pmnotice',
-				'emailpmnotify',
 				'invisible',
 				'subscriptionmethod',
 				'timezoneoffset',
@@ -1665,8 +1662,7 @@ function print_setting_peekers()
 		'new Peeker($("#setting_postmergemins"), $("#row_setting_postmergefignore, #row_setting_postmergeuignore, #row_setting_postmergesep"), /[^0+|]/, false)',
 		'new Peeker($(".setting_enablememberlist"), $("#row_setting_membersperpage, #row_setting_default_memberlist_sortby, #row_setting_default_memberlist_order, #row_setting_memberlistmaxavatarsize"), 1, true)',
 		'new Peeker($(".setting_enablereputation"), $("#row_setting_repsperpage, #row_setting_posrep, #row_setting_neurep, #row_setting_negrep, #row_setting_postrep, #row_setting_multirep, #row_setting_maxreplength, #row_setting_minreplength"), 1, true)',
-		'new Peeker($(".setting_enablewarningsystem"), $("#row_setting_allowcustomwarnings, #row_setting_canviewownwarning, #row_setting_maxwarningpoints, #row_setting_allowanonwarningpms"), 1, true)',
-		'new Peeker($(".setting_enablepms"), $("#row_setting_pmsallowhtml, #row_setting_pmsallowmycode, #row_setting_pmsallowsmilies, #row_setting_pmsallowimgcode, #row_setting_pmsallowvideocode, #row_setting_pmquickreply, #row_setting_pmfloodsecs, #row_setting_showpmip, #row_setting_maxpmquotedepth"), 1, true)',
+		'new Peeker($(".setting_enablewarningsystem"), $("#row_setting_allowcustomwarnings, #row_setting_canviewownwarning, #row_setting_maxwarningpoints"), 1, true)',
 		'new Peeker($(".setting_smilieinserter"), $("#row_setting_smilieinsertertot, #row_setting_smilieinsertercols"), 1, true)',
 		'new Peeker($("#setting_mail_handler"), $("#row_setting_smtp_host, #row_setting_smtp_port, #row_setting_smtp_user, #row_setting_smtp_pass, #row_setting_secure_smtp"), "smtp", false)',
 		'new Peeker($("#setting_mail_handler"), $("#row_setting_mail_parameters"), "mail", false)',
@@ -1681,7 +1677,7 @@ function print_setting_peekers()
 		'new Peeker($(".setting_purgespammerbandelete"),$("#row_setting_purgespammerbangroup, #row_setting_purgespammerbanreason"), "ban", true)',
 		'new Peeker($("#setting_maxloginattempts"), $("#row_setting_loginattemptstimeout"), /[^0+|]/, false)',
 		'new Peeker($(".setting_bbcodeinserter"), $("#row_setting_partialmode, #row_setting_smilieinserter"), 1, true)',
-		'new Peeker($(".setting_portal"), $("#row_setting_portal_announcementsfid, #row_setting_portal_showwelcome, #row_setting_portal_showpms, #row_setting_portal_showstats, #row_setting_portal_showwol, #row_setting_portal_showsearch, #row_setting_portal_showdiscussions"), 1, true)',
+		'new Peeker($(".setting_portal"), $("#row_setting_portal_announcementsfid, #row_setting_portal_showwelcome, #row_setting_portal_showstats, #row_setting_portal_showwol, #row_setting_portal_showsearch, #row_setting_portal_showdiscussions"), 1, true)',
 		'new Peeker($(".setting_portal_announcementsfid_forums_groups_check"), $("#row_setting_portal_numannouncements"), /^(?!none)/, true)',
 		'new Peeker($(".setting_portal_showdiscussions"), $("#row_setting_portal_showdiscussionsnum, #row_setting_portal_excludediscussion"), 1, true)',
 		'new Peeker($(".setting_enableattachments"), $("#row_setting_maxattachments, #row_setting_attachthumbnails"), 1, true)',
@@ -1692,7 +1688,6 @@ function print_setting_peekers()
 		'new Peeker($("#setting_errorlogmedium"), $("#row_setting_errortypemedium"), /^(log|email|both)/, false)',
 		'new Peeker($("#setting_errorlogmedium"), $("#row_setting_errorloglocation"), /^(log|both)/, false)',
 		'new Peeker($(".setting_sigmycode"), $("#row_setting_sigcountmycode, #row_setting_sigimgcode"), 1, true)',
-		'new Peeker($(".setting_pmsallowmycode"), $("#row_setting_pmsallowimgcode, #row_setting_pmsallowvideocode"), 1, true)'
 	);
 
 	$peekers = $plugins->run_hooks("admin_settings_print_peekers", $peekers);
