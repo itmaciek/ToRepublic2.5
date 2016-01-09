@@ -31,12 +31,6 @@ $usergroup_permissions = array(
 	"canpostpolls" => 1,
 	"canvotepolls" => 1,
 	"canundovotes" => 0,
-	"canusepms" => 1,
-	"cansendpms" => 1,
-	"cantrackpms" => 1,
-	"candenypmreceipts" => 1,
-	"pmquota" => 100,
-	"maxpmrecipients" => 5,
 	"cansendemail" => 1,
 	"cansendemailoverride" => 0,
 	"maxemails" => 4,
@@ -74,7 +68,6 @@ $usergroup_permissions = array(
 	"maxwarningsday" => 0,
 	"canmodcp" => 0,
 	"showinbirthdaylist" => 0,
-	"canoverridepm" => 0,
 	"canusesig" => 0,
 	"canusesigxposts" => 0,
 	"signofollow" => 0,
@@ -885,12 +878,6 @@ if($mybb->input['action'] == "edit")
 				"canpostpolls" => $mybb->get_input('canpostpolls', MyBB::INPUT_INT),
 				"canvotepolls" => $mybb->get_input('canvotepolls', MyBB::INPUT_INT),
 				"canundovotes" => $mybb->get_input('canundovotes', MyBB::INPUT_INT),
-				"canusepms" => $mybb->get_input('canusepms', MyBB::INPUT_INT),
-				"cansendpms" => $mybb->get_input('cansendpms', MyBB::INPUT_INT),
-				"cantrackpms" => $mybb->get_input('cantrackpms', MyBB::INPUT_INT),
-				"candenypmreceipts" => $mybb->get_input('candenypmreceipts', MyBB::INPUT_INT),
-				"pmquota" => $mybb->get_input('pmquota', MyBB::INPUT_INT),
-				"maxpmrecipients" => $mybb->get_input('maxpmrecipients', MyBB::INPUT_INT),
 				"cansendemail" => $mybb->get_input('cansendemail', MyBB::INPUT_INT),
 				"cansendemailoverride" => $mybb->get_input('cansendemailoverride', MyBB::INPUT_INT),
 				"maxemails" => $mybb->get_input('maxemails', MyBB::INPUT_INT),
@@ -926,7 +913,6 @@ if($mybb->input['action'] == "edit")
 				"maxwarningsday" => $mybb->get_input('maxwarningsday', MyBB::INPUT_INT),
 				"canmodcp" => $mybb->get_input('canmodcp', MyBB::INPUT_INT),
 				"showinbirthdaylist" => $mybb->get_input('showinbirthdaylist', MyBB::INPUT_INT),
-				"canoverridepm" => $mybb->get_input('canoverridepm', MyBB::INPUT_INT),
 				"canusesig" => $mybb->get_input('canusesig', MyBB::INPUT_INT),
 				"canusesigxposts" => $mybb->get_input('canusesigxposts', MyBB::INPUT_INT),
 				"signofollow" => $mybb->get_input('signofollow', MyBB::INPUT_INT),
@@ -1157,17 +1143,6 @@ if($mybb->input['action'] == "edit")
 		"{$lang->warnings_per_day}<br />".$form->generate_numeric_field('maxwarningsday', $mybb->input['maxwarningsday'], array('id' => 'maxwarningsday', 'class' => 'field50'))
 	);
 	$form_container->output_row($lang->warning_system, "", "<div class=\"group_settings_bit\">".implode("</div><div class=\"group_settings_bit\">", $warning_options)."</div>");
-
-	$pm_options = array(
-		$form->generate_check_box("canusepms", 1, $lang->can_use_pms, array("checked" => $mybb->input['canusepms'])),
-		$form->generate_check_box("cansendpms", 1, $lang->can_send_pms, array("checked" => $mybb->input['cansendpms'])),
-		$form->generate_check_box("canoverridepm", 1, $lang->can_override_pms, array("checked" => $mybb->input['canoverridepm'])),
-		$form->generate_check_box("cantrackpms", 1, $lang->can_track_pms, array("checked" => $mybb->input['cantrackpms'])),
-		$form->generate_check_box("candenypmreceipts", 1, $lang->can_deny_reciept, array("checked" => $mybb->input['candenypmreceipts'])),
-		"{$lang->message_quota}<br /><small>{$lang->message_quota_desc}</small><br />".$form->generate_numeric_field('pmquota', $mybb->input['pmquota'], array('id' => 'pmquota', 'class' => 'field50', 'min' => 0)),
-		"{$lang->max_recipients}<br /><small>{$lang->max_recipients_desc}</small><br />".$form->generate_numeric_field('maxpmrecipients', $mybb->input['maxpmrecipients'], array('id' => 'maxpmrecipients', 'class' => 'field50', 'min' => 0))
-	);
-	$form_container->output_row($lang->private_messaging, "", "<div class=\"group_settings_bit\">".implode("</div><div class=\"group_settings_bit\">", $pm_options)."</div>");
 
 	$form_container->end();
 	echo "</div>";
