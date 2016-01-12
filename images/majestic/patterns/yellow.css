@@ -1,0 +1,77 @@
+.thead, .go-top, #searchform input[type="submit"]:hover, .link2 {
+background-color: #f1c40f;
+}
+
+.pagination a, .editor_control_bar {
+	border: 2px solid #f1c40f;
+}
+
+.pagination a:hover, .logo .symbol, .advsearch:hover, .user-nav, .usermenu li ul, .fpagi:hover , .navhome, .h3main span , .flogo .fsymbol, input.button:hover, .button:hover, 
+.buttons:hover, .mfp-close-btn-in .mfp-close, .logincon, .signupnow, .istatwrap > ul > li:hover, #protabs li a.open, .post_avatar img:hover, .fullstats, .poststats, .onnicon {
+background: #f1c40f;
+}
+
+.forum_offlink, .forum_on {
+background-color: #f1c40f;
+}
+
+a.button:hover, .postbit_buttons > a:hover, .post .post_author div.author_avatar img:hover {
+background: #f1c40f;
+}
+
+.usercp_nav_composepm:before, .patternchanger ul li a, .fixed, .fluid, a.button:link, a.button:visited, a.button:active, .usercp_nav_pmfolder:before, .usercp_nav_sub_pmfolder:before, .usercp_nav_trash_pmfolder:before, .usercp_nav_pmtracking:before, .usercp_nav_pmfolders:before, .usercp_nav_profile:before, .usercp_nav_email:before, .usercp_nav_password:before, .usercp_nav_username:before, .usercp_nav_editsig:before, .usercp_nav_avatar:before, .usercp_nav_options:before, .usercp_nav_usergroups:before, .usercp_nav_editlists:before, .usercp_nav_attachments:before, .usercp_nav_drafts:before, .usercp_nav_subscriptions:before, .usercp_nav_fsubscriptions:before, .usercp_nav_notepad:before, .usercp_nav_viewprofile:before, .usercp_nav_home:before, a:link, a:visited , .pagination .pagination_current, .advsearch, .user-name, .majestic li:hover > a, .breadcrumb .crust:last-child a.crumb, .breadcrumb .crust:hover a.crumb,
+ .footnav li a:hover, .h3main, .h3description, .solline i, .modalContent h1, .istatwrap > u l> li > a:link, .istatwrap > ul > li > a:visited , .newsTicker .news-header, .newsTicker .newsController, 
+ .solservices:hover h3, .solgroups h1, .pforumstats h1, .solline2 i, .solbanner span, .portalh3, .statsicon:hover, .bdayicon:hover, .onicon:hover, tr:hover .statsicon, tr:hover .bdayicon, tr:hover .onicon{
+color: #f1c40f;
+}
+
+.post_avatar img:hover, .post .post_author div.author_avatar img:hover {
+border: 1px solid #f1c40f;
+}
+
+blockquote, .majestic li ul li ul {
+border-left: 4px solid #f1c40f;
+}
+
+.codeblock .title {
+border-bottom: 1px dashed #f1c40f;
+}
+
+input.textbox:focus, textarea:focus, select:focus{
+outline: 2px solid #f1c40f;
+}
+
+.user-nav:before, .majestic li ul li ul:before  {
+border-right: 5px solid #f1c40f;
+}
+
+.majestic li ul,.majestic li ul li ul  {
+border-top: 4px solid #f1c40f;
+}
+
+.majestic li ul:before {
+  border-bottom: 5px solid #f1c40f;
+}
+
+.majestic li ul li:hover a  {
+border-left: 5px solid #f1c40f;
+}
+
+.footermenu li a:hover {
+color: #f1c40f;
+border: 1px solid #f1c40f;
+}
+
+.solline span, .solline2 span {
+border-top: 1px solid  #f1c40f;
+}
+
+.buttons, .solservices:hover i, a.button:link, a.button:visited, a.button:active, .postbit_buttons > a:link, .postbit_buttons > a:hover, .postbit_buttons > a:visited, .postbit_buttons > a:active {
+border: 2px solid #f1c40f;
+color: #f1c40f;
+}
+
+.modcp_nav_home:before, .modcp_nav_announcements:before, .modcp_nav_reports:before, .modcp_nav_modqueue:before, .modcp_nav_modlogs:before, .modcp_nav_ipsearch:before, .modcp_nav_banning:before, .modcp_nav_editprofile:before, .modcp_nav_warninglogs:before {
+color: #f1c40f;
+}
+
