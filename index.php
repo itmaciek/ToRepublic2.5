@@ -1,4 +1,6 @@
 <?php
+require 'vendor/autoload.php';
+
 /**
  * MyBB 1.8
  * Copyright 2014 MyBB Group, All Rights Reserved

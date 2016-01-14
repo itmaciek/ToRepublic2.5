@@ -16,7 +16,7 @@
 // Language pack translators website : http://www.mybboard.pl/
 // Compatible version of MyBB : 1806
 // Last edited in MyBB Editor by : styv300
-// Last edited date : Tue, 05 Jan 2016 02:16:11 +0000
+// Last edited date : Thu, 14 Jan 2016 21:24:16 +0000
 // --------------------------------------------------------------------------------
 
 $l['nav_register'] = 'Rejestracja';
@@ -90,11 +90,13 @@ $l['email'] = 'E-mail:';
 $l['send_user_email'] = 'E-mail.';
 $l['users_signature'] = 'Sygnatura';
 $l['agreement'] = 'Regulamin forum';
-$l['agreement_1'] = 'Na forum zabrania się publikowania treści prowokacyjnych, obraźliwych, erotycznych, rasistowskich, faszystowskich itp. Zabrania się również pisania zbędnych, nie wnoszących nic do tematu wypowiedzi.';
+$l['agreement_1'] = 'Na forum nie ma żadnych specialnych zasad, jednak zakładając konto powinieneś przestrzegać dwóch punktów:
+1. Nie umieszczać linków do treści pedofilskich
+2. Nie być dupkiem dla innych, chyba ze sobie na to zasłużyli';
 $l['agreement_2'] = 'Rejestrując się na tym forum dyskusyjnym oświadczasz, że masz świadomość iż <b>NIE WOLNO</b> Ci pisać postów łamiących te zasady.';
-$l['agreement_3'] = 'Jeśli złamiesz któreś z tych postanowień, narazisz się na możliwość usunięcia konta lub zbanowania używanego przez Ciebie adresu IP.';
-$l['agreement_4'] = 'Żadne z Twoich danych podanych podczas rejestracji na forum nie będą wykorzystywane w celach niezwiązanych z działalnością forum ani przekazywane osobom trzecim.';
-$l['agreement_5'] = 'Kontynuując rejestrację oświadczasz, że zgadzasz się ze wszystkimi wymienionymi powyżej postanowieniami oraz innymi regułami ustalonymi przez administratorów tego forum. W celu poznania pełnych reguł obowiązujących na forum, skontaktuj się z administratorem.';
+$l['agreement_3'] = 'Jeśli złamiesz któreś z tych postanowień, narazisz się na możliwość usunięcia konta lub zbanowania używanego przez Ciebie konta.';
+$l['agreement_4'] = 'Żadne z Twoich danych podanych podczas rejestracji na forum nie będą wykorzystywane w celach niezwiązanych z działalnością forum ani przekazywane osobom trzecim. Nie zapisujemy logów, a serwer znajduje się w kraju który ma gdzieś prośby Polskich organów.  ';
+$l['agreement_5'] = 'Zastosuj zasadę ograniczonego zaufania, zawsze i wszędzie. <b>NIE UFAJ NIKOMU</b>';
 $l['registration'] = 'Rejestracja';
 $l['required_fields'] = 'Wymagane pola';
 $l['complex_password'] = '<acronym title="Hasło, które składa się co najmniej z {1} znaków i zawiera co najmniej jedną dużą literę, jedną małą literę i jedną cyfrę.">Złożone</acronym> hasło:';
