@@ -25,7 +25,7 @@ function build_postbit($post, $post_type=0)
 	$hascustomtitle = 0;
 
 	// Set default values for any fields not provided here
-	foreach(array('pid', 'aid', 'pmid', 'posturl', 'button_multiquote', 'subject_extra', 'attachments', 'button_rep', 'button_warn', 'button_purgespammer', 'button_pm', 'button_reply_pm', 'button_replyall_pm', 'button_forward_pm', 'button_delete_pm', 'replink', 'warninglevel') as $post_field)
+	foreach(array('pid', 'aid', 'pmid', 'posturl', 'button_multiquote', 'subject_extra', 'attachments', 'button_rep', 'button_warn', 'button_purgespammer', 'button_pm', 'button_pubkey', 'button_reply_pm', 'button_replyall_pm', 'button_forward_pm', 'button_delete_pm', 'replink', 'warninglevel') as $post_field)
 	{
 		if(empty($post[$post_field]))
 		{
@@ -127,6 +127,8 @@ function build_postbit($post, $post_type=0)
 			break;
 	}
 
+	
+
 	if(!$postcounter)
 	{ // Used to show the # of the post
 		if($page > 1)
@@ -160,7 +162,8 @@ function build_postbit($post, $post_type=0)
 	$postcounter++;
 
 	// Format the post date and time using my_date
-	$post['postdate'] = my_date('relative', $post['dateline']);
+	//$post['postdate'] = my_date('relative', $post['dateline']);
+	$post['postdate'] = $lang->na;
 
 	// Dont want any little 'nasties' in the subject
 	$post['subject'] = $parser->parse_badwords($post['subject']);
@@ -297,6 +300,7 @@ function build_postbit($post, $post_type=0)
 		$post['threadnum'] = my_number_format($post['threadnum']);
 
 		// Determine the status to show for the user (Online/Offline/Away)
+		/*
 		$timecut = TIME_NOW - $mybb->settings['wolcutoff'];
 		if($post['lastactive'] > $timecut && ($post['invisible'] != 1 || $mybb->usergroup['canviewwolinvis'] == 1) && $post['lastvisit'] != $post['lastactive'])
 		{
@@ -313,6 +317,9 @@ function build_postbit($post, $post_type=0)
 				eval("\$post['onlinestatus'] = \"".$templates->get("postbit_offline")."\";");
 			}
 		}
+		*/
+		// Show as always offline
+		eval("\$post['onlinestatus'] = \"".$templates->get("postbit_offline")."\";");
 
 		$post['useravatar'] = '';
 		if(isset($mybb->user['showavatars']) && $mybb->user['showavatars'] != 0 || $mybb->user['uid'] == 0)
@@ -329,8 +336,9 @@ function build_postbit($post, $post_type=0)
 
 		if($mybb->settings['enablepms'] == 1 && $post['receivepms'] != 0 && $mybb->usergroup['cansendpms'] == 1 && my_strpos(",".$post['ignorelist'].",", ",".$mybb->user['uid'].",") === false)
 		{
-			eval("\$post['button_pm'] = \"".$templates->get("postbit_pm")."\";");
+			//eval("\$post['button_pm'] = \"".$templates->get("postbit_pm")."\";");
 		}
+		
 
 		$post['button_rep'] = '';
 		if($post_type != 3 && $mybb->settings['enablereputation'] == 1 && $mybb->settings['postrep'] == 1 && $mybb->usergroup['cangivereputations'] == 1 && $usergroup['usereputationsystem'] == 1 && ($mybb->settings['posrep'] || $mybb->settings['neurep'] || $mybb->settings['negrep']) && $post['uid'] != $mybb->user['uid'] && $post['visible'] == 1)
@@ -362,7 +370,7 @@ function build_postbit($post, $post_type=0)
 			$post['button_email'] = "";
 		}
 
-		$post['userregdate'] = my_date($mybb->settings['regdateformat'], $post['regdate']);
+		$post['userregdate'] = $lang->na; //my_date($mybb->settings['regdateformat'], $post['regdate']);
 
 		// Work out the reputation this user has (only show if not announcement)
 		if($post_type != 3 && $usergroup['usereputationsystem'] != 0 && $mybb->settings['enablereputation'] == 1)
@@ -493,7 +501,7 @@ function build_postbit($post, $post_type=0)
 		$post['button_email'] = '';
 		$post['button_www'] = '';
 		$post['signature'] = '';
-		$post['button_pm'] = '';
+		$post['button_pm'] = $lang->na;
 		$post['button_find'] = '';
 		$post['onlinestatus'] = '';
 		$post['replink'] = '';
@@ -532,7 +540,8 @@ function build_postbit($post, $post_type=0)
 		// Figure out if we need to show an "edited by" message
 		if($post['edituid'] != 0 && $post['edittime'] != 0 && $post['editusername'] != "" && (($mybb->settings['showeditedby'] != 0 && $usergroup['cancp'] == 0) || ($mybb->settings['showeditedbyadmin'] != 0 && $usergroup['cancp'] == 1)))
 		{
-			$post['editdate'] = my_date('relative', $post['edittime']);
+			//$post['editdate'] = my_date('relative', $post['edittime']);
+			$post['editdate'] = $lang->na;
 			$post['editnote'] = $lang->sprintf($lang->postbit_edited, $post['editdate']);
 			$post['editedprofilelink'] = build_profile_link($post['editusername'], $post['edituid']);
 			$editreason = "";
@@ -546,7 +555,7 @@ function build_postbit($post, $post_type=0)
 		}
 
 		$time = TIME_NOW;
-		if((is_moderator($fid, "caneditposts") || ($forumpermissions['caneditposts'] == 1 && $mybb->user['uid'] == $post['uid'] && $thread['closed'] != 1 && ($mybb->usergroup['edittimelimit'] == 0 || $mybb->usergroup['edittimelimit'] != 0 && $post['dateline'] > ($time-($mybb->usergroup['edittimelimit']*60))))) && $mybb->user['uid'] != 0)
+		if((is_moderator($fid, "caneditposts") || ($forumpermissions['caneditposts'] == 1 && $mybb->user['uid'] == $post['uid'] && $thread['closed'] != 1 && ($mybb->usergroup['edittimelimit'] == 0) && ($mybb->user['uid'] != 0))))
 		{
 			eval("\$post['button_edit'] = \"".$templates->get("postbit_edit")."\";");
 		}
@@ -669,7 +678,11 @@ function build_postbit($post, $post_type=0)
 
 	$post['iplogged'] = '';
 	$show_ips = $mybb->settings['logip'];
-	$ipaddress = my_inet_ntop($db->unescape_binary($post['ipaddress']));
+	//$ipaddress = my_inet_ntop($db->unescape_binary($post['ipaddress']));
+	$ipaddress = '127.0.0.1';
+
+
+
 
 	// Show post IP addresses... PMs now can have IP addresses too as of 1.8!
 	if($post_type == 2)
@@ -719,6 +732,30 @@ function build_postbit($post, $post_type=0)
 	}
 
 	$post['message'] = $parser->parse_message($post['message'], $parser_options);
+
+
+
+	// Validate key 
+	$keyinfo = user_key_info($post['uid']);
+
+	$post['signstatus'];
+	if($keyinfo['status'] == "OK") {
+		$post['signstatus'] = "<span style=\"color: #07a407;\" title=\"Fingerprint: {$keyinfo['fingerprint']}\">✓ podpisano przez {$post['profilelink']}</span>";
+	}
+
+
+	// Jid link 
+	$ujid = user_jid($post['uid']);	
+	$post['jidlink'] = $ujid;
+
+	// User key
+	$post['userpubkey'] = $keyinfo['key'];
+	
+	if($keyinfo['key'] != "") {
+		eval("\$post['button_pubkey'] = \"".$templates->get("postbit_pubkey")."\";");
+	} else {
+		$post['button_pubkey'];
+	}
 
 	$post['attachments'] = '';
 	if($mybb->settings['enableattachments'] != 0)

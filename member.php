@@ -2026,9 +2026,10 @@ if($mybb->input['action'] == "profile")
 		eval("\$sendemail = \"".$templates->get("member_profile_email")."\";");
 	}
 	
+	/*
 	$contact_fields = array();
 	$any_contact_field = false;
-	foreach(array('icq', 'aim', 'yahoo', 'skype', 'google') as $field)
+	foreach(array('jid') as $field)
 	{
 		$contact_fields[$field] = '';
 		$settingkey = 'allow'.$field.'field';
@@ -2037,9 +2038,9 @@ if($mybb->input['action'] == "profile")
 		{
 			$any_contact_field = true;
 			
-			if($field == 'icq')
+			if($field == 'jid')
 			{
-				$memprofile[$field] = (int)$memprofile[$field];
+				$memprofile[$field] = user_jid($memprofile['uid']);
 			}
 			else
 			{
@@ -2051,7 +2052,12 @@ if($mybb->input['action'] == "profile")
 			eval('$contact_fields[\''.$field.'\'] = "'.$templates->get($tmpl).'";');
 		}
 	}
+	*/
 	
+	$any_contact_field = true;
+	
+	$contact_fields['jid'] = user_jid($memprofile['uid']);
+
 	if($any_contact_field || $sendemail || $website)
 	{
 		eval('$contact_details = "'.$templates->get("member_profile_contact_details").'";');
@@ -2209,17 +2215,27 @@ if($mybb->input['action'] == "profile")
 		}
 	}
 	
-	$memregdate = my_date($mybb->settings['dateformat'], $memprofile['regdate']);
+	//$memregdate = my_date($mybb->settings['dateformat'], $memprofile['regdate']);
 	$memlocaldate = gmdate($mybb->settings['dateformat'], TIME_NOW + ($memprofile['timezone'] * 3600));
 	$memlocaltime = gmdate($mybb->settings['timeformat'], TIME_NOW + ($memprofile['timezone'] * 3600));
+	$memregdate = $lang->na;
 
-	$localtime = $lang->sprintf($lang->local_time_format, $memlocaldate, $memlocaltime);
+	//$localtime = $lang->sprintf($lang->local_time_format, $memlocaldate, $memlocaltime);
+	$localtime = $lang->na;
+
+	// key info 
+	$keyinfo = user_key_info($uid);
+	$keystatus = $keyinfo['status'];
+	$key_fingerprint = $keyinfo['fingerprint'];
+	
 
 	if($memprofile['lastactive'])
 	{
-		$memlastvisitdate = my_date($mybb->settings['dateformat'], $memprofile['lastactive']);
+		//$memlastvisitdate = my_date($mybb->settings['dateformat'], $memprofile['lastactive']);
+		$memlastvisitdate = $lang->na;
 		$memlastvisitsep = $lang->comma;
-		$memlastvisittime = my_date($mybb->settings['timeformat'], $memprofile['lastactive']);
+		//$memlastvisittime = my_date($mybb->settings['timeformat'], $memprofile['lastactive']);
+		$memlastvisittime = $lang->na;
 	}
 	else
 	{
@@ -2398,14 +2414,16 @@ if($mybb->input['action'] == "profile")
 		if($memprofile['lastactive'])
 		{
 			$memlastvisitsep = $lang->comma;
-			$memlastvisitdate = my_date('relative', $memprofile['lastactive']);
+			//$memlastvisitdate = my_date('relative', $memprofile['lastactive']);
+			$memlastvisitdate = $lang->na;
 		}
 
 		// Time Online
 		$timeonline = $lang->none_registered;
 		if($memprofile['timeonline'] > 0)
 		{
-			$timeonline = nice_time($memprofile['timeonline']);
+			//$timeonline = nice_time($memprofile['timeonline']);
+			$timeonline = $lang->na;
 		}
 
 		// Online?
@@ -2416,9 +2434,10 @@ if($mybb->input['action'] == "profile")
 			require_once MYBB_ROOT."inc/functions_online.php";
 			$activity = fetch_wol_activity($session['location'], $session['nopermission']);
 			$location = build_friendly_wol_location($activity);
-			$location_time = my_date($mybb->settings['timeformat'], $memprofile['lastactive']);
-
-			eval("\$online_status = \"".$templates->get("member_profile_online")."\";");
+			//$location_time = my_date($mybb->settings['timeformat'], $memprofile['lastactive']);
+			$location_time = $lang->na;		
+	
+			eval("\$online_status = \"".$templates->get("member_profile_offline")."\";");
 		}
 		// User is offline
 		else

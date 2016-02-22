@@ -29,6 +29,55 @@ function user_exists($uid)
 	}
 }
 
+function user_jid($uid)
+{
+	global $db;
+	$query = $db->query("SELECT fid5 FROM mybb_userfields WHERE ufid='{$uid}'");
+	$userJid = $db->fetch_field($query, "fid5");
+
+	if($userJid == "") {
+		return 'Brak';
+	} else {
+		return $userJid;
+	}
+}
+
+function user_key_info($uid)
+{
+       global $db;
+
+	 // User key info
+        $query = $db->query("SELECT fid4 FROM mybb_userfields WHERE ufid='{$uid}'");
+        $userPubkey = $db->fetch_field($query, "fid4");
+	if($userPubkey == "") {
+		return false;
+	}
+
+        // Set up keyring
+        $keyring = ".trkeys";
+        putenv ("GNUPGHOME=$keyring");
+
+        // Import key
+        $gpg = new gnupg();
+        $gpg->seterrormode(gnupg::ERROR_WARNING);
+
+        $wkey = $gpg->import($userPubkey);
+
+        if(isset($wkey['fingerprint'])) {
+                $keystatus = "OK";
+                $key_fingerprint = $wkey['fingerprint'];
+        } else {
+                $keystatus = "Brak";
+                $key_fingerprint = $lanag->na;
+        }
+
+	return [
+		"key" => $userPubkey,
+		"status" => $keystatus,
+		"fingerprint" => $key_fingerprint
+	];
+}
+
 /**
  * Checks if $username already exists in the database.
  *
@@ -389,7 +438,7 @@ function usercp_menu()
 	// Add the default items as plugins with separated priorities of 10
 	if($mybb->settings['enablepms'] != 0)
 	{
-		$plugins->add_hook("usercp_menu", "usercp_menu_messenger", 10);
+		//$plugins->add_hook("usercp_menu", "usercp_menu_messenger", 10);
 	}
 
 	$plugins->add_hook("usercp_menu", "usercp_menu_profile", 20);
@@ -417,7 +466,7 @@ function usercp_menu_messenger()
 	$tracking = '';
 	if($mybb->usergroup['cantrackpms'])
 	{
-		$tracking = $templates->get("usercp_nav_messenger_tracking");
+		//$tracking = $templates->get("usercp_nav_messenger_tracking");
 	}
 	eval("\$ucp_nav_tracking = \"". $tracking ."\";");
 
