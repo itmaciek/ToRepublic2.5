@@ -2812,6 +2812,7 @@ switch($mybb->input['action'])
 				}
 
 				// Add the IP's to the banfilters
+				/*
 				foreach(array($user['regip'], $user['lastip']) as $ip)
 				{
 					$ip = my_inet_ntop($db->unescape_binary($ip));
@@ -2827,6 +2828,7 @@ switch($mybb->input['action'])
 					}
 				}
 
+				*/
 				// Clear the profile
 				$userhandler->clear_profile($uid, $mybb->settings['purgespammerbangroup']);
 
