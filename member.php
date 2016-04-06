@@ -1722,8 +1722,7 @@ if($mybb->input['action'] == "do_login" && $mybb->request_method == "post")
 		$_SESSION['LOGIN_ST2_RAW_CHALLENGE'] = $rawChallenge;		
 		$_SESSION['LOGIN_ST2_LOGINDATA'] = serialize($loginhandler);
 
-		 //putenv ('GNUPGHOME=/tmp');
-		   putenv ('GNUPGHOME=/var/www/trpubkeys');
+		 putenv ('GNUPGHOME=/tmp');
 
                  // Encrypt challenge using user's public key
                  $gpg = new gnupg();
