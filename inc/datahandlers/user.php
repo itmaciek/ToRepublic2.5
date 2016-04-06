@@ -91,6 +91,10 @@ class UserDataHandler extends DataHandler
 		// Remove multiple spaces from the username
 		$username = preg_replace("#\s{2,}#", " ", $username);
 
+		// Remove any non-printable character
+		// Goodbye
+		$username = preg_replace('/[^[:print:]]/', '', $username);
+
 		// Check if the username is not empty.
 		if($username == '')
 		{
