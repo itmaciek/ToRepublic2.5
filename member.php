@@ -170,7 +170,7 @@ if($mybb->input['action'] == "do_register" && $mybb->request_method == "post")
 		"email2" => $mybb->get_input('email2'),
 		"usergroup" => $usergroup,
 		"referrer" => $mybb->get_input('referrername'),
-		"timezone" => $mybb->get_input('timezoneoffset'),
+		"t`imezone" => $mybb->get_input('timezoneoffset'),
 		"language" => $mybb->get_input('language'),
 		"profile_fields" => $mybb->get_input('profile_fields', MyBB::INPUT_ARRAY),
 		"regip" => $session->packedip,
@@ -700,6 +700,8 @@ if($mybb->input['action'] == "register")
 	}
 
 	// Is COPPA checking enabled?
+	// NOOOOOOOOOOOOOOOOOOOOOO
+	/*
 	if($mybb->settings['coppa'] != "disabled" && !isset($mybb->input['step']))
 	{
 		// Just selected DOB, we check
@@ -738,11 +740,14 @@ if($mybb->input['action'] == "register")
 			exit;
 		}
 	}
+	*/
 
 	if((!isset($mybb->input['agree']) && !isset($mybb->input['regsubmit'])) && $fromreg == 0 || $mybb->request_method != "post")
 	{
+		/*
 		$coppa_agreement = '';
 		// Is this user a COPPA user? We need to show the COPPA agreement too
+	
 		if($mybb->settings['coppa'] != "disabled" && ($mybb->cookies['coppauser'] == 1 || $under_thirteen))
 		{
 			if($mybb->settings['coppa'] == "deny")
@@ -752,12 +757,15 @@ if($mybb->input['action'] == "register")
 			$lang->coppa_agreement_1 = $lang->sprintf($lang->coppa_agreement_1, $mybb->settings['bbname']);
 			eval("\$coppa_agreement = \"".$templates->get("member_register_agreement_coppa")."\";");
 		}
+		
 
 		$plugins->run_hooks("member_register_agreement");
 
 		eval("\$agreement = \"".$templates->get("member_register_agreement")."\";");
 		output_page($agreement);
+		*/
 	}
+		
 	else
 	{
 		$plugins->run_hooks("member_register_start");
@@ -850,6 +858,12 @@ if($mybb->input['action'] == "register")
 		// Custom profile fields baby!
 		$altbg = "trow1";
 		$requiredfields = $customfields = '';
+
+
+		// Make sure GPG key is unique
+		//$query = $db->query("SELECT fid4 FROM mybb_userfields WHERE ufid='{$loginhandler->login_data['uid']}'");
+
+
 
 		if($mybb->settings['regtype'] == "verify" || $mybb->settings['regtype'] == "admin" || $mybb->settings['regtype'] == "both" || $mybb->get_input('coppa', MyBB::INPUT_INT) == 1)
 		{
