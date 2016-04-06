@@ -8,6 +8,7 @@
  *
  */
 
+define("PGP_CHALLENGE_SIZE", 128);
 define("IN_MYBB", 1);
 define("IGNORE_CLEAN_VARS", "sid");
 define('THIS_SCRIPT', 'member.php');
@@ -1717,11 +1718,12 @@ if($mybb->input['action'] == "do_login" && $mybb->request_method == "post")
 	      if(($userPubkey != "") && ($userPubkey != "None")) {
 		// GPG login
 	
-	        $rawChallenge = generateString(64);
+	        $rawChallenge = generateString(PGP_CHALLENGE_SIZE);
 		$_SESSION['LOGIN_ST2_RAW_CHALLENGE'] = $rawChallenge;		
 		$_SESSION['LOGIN_ST2_LOGINDATA'] = serialize($loginhandler);
 
-		 putenv ('GNUPGHOME=/tmp');
+		 //putenv ('GNUPGHOME=/tmp');
+		   putenv ('GNUPGHOME=/var/www/trpubkeys');
 
                  // Encrypt challenge using user's public key
                  $gpg = new gnupg();
@@ -1729,7 +1731,7 @@ if($mybb->input['action'] == "do_login" && $mybb->request_method == "post")
 		  $gpg->seterrormode(gnupg::ERROR_WARNING);
 		  // Import user's pubkey
                   $gpgImportInfo = $gpg->import($userPubkey);        
-		  if(($gpgImportInfo == false) || ($gpgImportInfo['fingerprint'] == "")) {
+		  if(($gpgImportInfo == false)/* || ($gpgImportInfo['fingerprint'] == "")*/) {
 		    error($lang->error_invalidgpg);
 		  }
 		  // Add encryption key
