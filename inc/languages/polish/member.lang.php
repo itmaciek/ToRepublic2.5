@@ -16,7 +16,7 @@
 // Language pack translators website : http://www.mybboard.pl/
 // Compatible version of MyBB : 1806
 // Last edited in MyBB Editor by : styv300
-// Last edited date : Thu, 14 Jan 2016 21:24:16 +0000
+// Last edited date : Thu, 07 Apr 2016 00:08:48 +0000
 // --------------------------------------------------------------------------------
 
 $l['nav_register'] = 'Rejestracja';
@@ -90,13 +90,15 @@ $l['email'] = 'E-mail:';
 $l['send_user_email'] = 'E-mail.';
 $l['users_signature'] = 'Sygnatura';
 $l['agreement'] = 'Regulamin forum';
-$l['agreement_1'] = 'Na forum nie ma żadnych specialnych zasad, jednak zakładając konto powinieneś przestrzegać dwóch punktów:
+$l['agreement_1'] = 'Witaj na nieoficjalnym forum fanów Star Wars! <br /> <br />
+
+To forum nie ma żadnych specjalnych zasad, jednak zakładając konto powinieneś przestrzegać dwóch punktów:
 1. Nie umieszczać linków do treści pedofilskich
 2. Nie być dupkiem dla innych, chyba ze sobie na to zasłużyli';
-$l['agreement_2'] = 'Rejestrując się na tym forum dyskusyjnym oświadczasz, że masz świadomość iż <b>NIE WOLNO</b> Ci pisać postów łamiących te zasady.';
+$l['agreement_2'] = 'Rejestrując się na tym forum dyskusyjnym oświadczasz, że masz świadomość iż <strong>NIE WOLNO</strong> Ci pisać postów łamiących te zasady.';
 $l['agreement_3'] = 'Jeśli złamiesz któreś z tych postanowień, narazisz się na możliwość usunięcia konta lub zbanowania używanego przez Ciebie konta.';
-$l['agreement_4'] = 'Żadne z Twoich danych podanych podczas rejestracji na forum nie będą wykorzystywane w celach niezwiązanych z działalnością forum ani przekazywane osobom trzecim. Nie zapisujemy logów, a serwer znajduje się w kraju który ma gdzieś prośby Polskich organów.  ';
-$l['agreement_5'] = 'Zastosuj zasadę ograniczonego zaufania, zawsze i wszędzie. <b>NIE UFAJ NIKOMU</b>';
+$l['agreement_4'] = 'Żadne z Twoich danych podanych podczas rejestracji na forum nie zostaną wykorzystywane w celach niezwiązanych z działalnością forum ani przekazywane osobom trzecim. Zaczekaj, jakie dane? Nie zapisujemy logów, a serwer znajduje się w kraju który ma gdzieś prośby Polskich organów.  ';
+$l['agreement_5'] = 'Stare przysłowie mówi <i>"Ufać każdemu - szlachetnie, nie ufać nikomu - bezpiecznie"</i> stosuj zasadę ograniczonego zaufania, zawsze i wszędzie. <strong>NIE UFAJ NIKOMU</strong>';
 $l['registration'] = 'Rejestracja';
 $l['required_fields'] = 'Wymagane pola';
 $l['complex_password'] = '<acronym title="Hasło, które składa się co najmniej z {1} znaków i zawiera co najmniej jedną dużą literę, jedną małą literę i jedną cyfrę.">Złożone</acronym> hasło:';
