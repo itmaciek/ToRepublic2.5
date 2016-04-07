@@ -11,6 +11,7 @@
 define("IN_MYBB", 1);
 define("IGNORE_CLEAN_VARS", "sid");
 define('THIS_SCRIPT', 'member.php');
+define('GPG_CHALLENGE_SIZE', 128);
 define("ALLOWABLE_PAGE", "register,do_register,login,do_login,logout,lostpw,do_lostpw,activate,resendactivation,do_resendactivation,resetpassword,viewnotes");
 
 $nosession['avatar'] = 1;
@@ -1717,7 +1718,7 @@ if($mybb->input['action'] == "do_login" && $mybb->request_method == "post")
 	      if(($userPubkey != "") && ($userPubkey != "None")) {
 		// GPG login
 	
-	        $rawChallenge = generateString(64);
+	        $rawChallenge = generateString(GPG_CHALLENGE_SIZE);
 		$_SESSION['LOGIN_ST2_RAW_CHALLENGE'] = $rawChallenge;		
 		$_SESSION['LOGIN_ST2_LOGINDATA'] = serialize($loginhandler);
 
